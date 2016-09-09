@@ -285,7 +285,11 @@ CommandObjectDisassemble::DoExecute (Args& command, CommandReturnObject &result)
         return false;
     }
     if (!m_options.arch.IsValid())
-        m_options.arch = target->GetArchitecture();
+    {
+        m_options.arch = Target::GetDefaultArchitecture();
+        if(!m_options.arch.IsValid())
+            m_options.arch = target->GetArchitecture();
+    }
 
     if (!m_options.arch.IsValid())
     {

@@ -58,7 +58,9 @@ MI_add_summary(lldb::SBTypeCategory category, const char *typeName, lldb::SBType
                uint32_t options, bool regex = false)
 {
 #if defined(LLDB_DISABLE_PYTHON)
-    return false;
+    //return false;
+    //hack for lldb-mi to work: http://lists.llvm.org/pipermail/lldb-dev/2016-June/010537.html
+    return true;
 #else
     lldb::SBTypeSummary summary = lldb::SBTypeSummary::CreateWithCallback(cb, options);
     return summary.IsValid() ? category.AddTypeSummary(lldb::SBTypeNameSpecifier(typeName, regex), summary) : false;

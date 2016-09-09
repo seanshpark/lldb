@@ -452,7 +452,7 @@ CMICmnLLDBDebugSessionInfo::MIResponseForVariableInfoInternal(const VariableInfo
     {
         CMICmnMIValueTuple miValueTuple;
         lldb::SBValue value = vwrSBValueList.GetValueAtIndex(i);
-        const CMICmnMIValueConst miValueConst(value.GetName());
+        const CMICmnMIValueConst miValueConst((value.GetName() != nullptr) ? value.GetName() : "");
         const CMICmnMIValueResult miValueResultName("name", miValueConst);
         if (vbMarkArgs && vbIsArgs)
         {
@@ -802,7 +802,7 @@ CMICmnLLDBDebugSessionInfo::GetBrkPtInfo(const lldb::SBBreakpoint &vBrkPt, SBrkP
     vrwBrkPtInfo.m_pc = nAddr;
     vrwBrkPtInfo.m_fnName = pFn;
     vrwBrkPtInfo.m_fileName = pFile;
-    vrwBrkPtInfo.m_path = pFilePath;
+    vrwBrkPtInfo.m_path = (pFilePath != nullptr) ? pFilePath : "";
     vrwBrkPtInfo.m_nLine = nLine;
     vrwBrkPtInfo.m_nTimes = vBrkPt.GetHitCount();
 

@@ -1572,7 +1572,10 @@ StackFrame::GetStatus (Stream& strm,
                     const uint32_t disasm_lines = debugger.GetDisassemblyLineCount();
                     if (disasm_lines > 0)
                     {
-                        const ArchSpec &target_arch = target->GetArchitecture();
+                        static ArchSpec target_arch = Target::GetDefaultArchitecture();
+                        if(!target_arch.IsValid()) {
+                          target_arch = target->GetArchitecture();
+                        }
                         AddressRange pc_range;
                         pc_range.GetBaseAddress() = GetFrameCodeAddress();
                         pc_range.SetByteSize(disasm_lines * target_arch.GetMaximumOpcodeByteSize());
